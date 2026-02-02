@@ -38,13 +38,13 @@ def get_date(date: str) -> str:
         return ""
 
     if "-" not in date or "T" not in date:
-        raise ValueError("Не верные данные даты")
+        raise ValueError("Не верный формат даты")
 
     date_, time = date.split("T")
     year, month, day = date_.split("-")
 
     if not year or not month or not day:
-        raise ValueError("Не верные данные даты")
+        raise ValueError("Нет данных даты")
 
     date_format = "{0}.{1}.{2}"
     result = date_format.format(day, month, year)
