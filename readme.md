@@ -8,7 +8,14 @@
 
 ``git clone https://github.com/Ermin36/MyProject.git``
 
-2. Подключить в своём проекте модуль scr\processing
+2. Установка библиотек
+
+`poetry install`
+или
+`python -m poetry install`
+
+
+3. Подключить в своём проекте модуль scr\processing
 
 ``from utils.processing import *``
 \- Импортирует все функции
@@ -56,5 +63,9 @@ new_list_dict = sort_by_date(list_dict)
 Отсортирует список по убыванию времени ключа 'date'
 
 ## Тесты
+Все тесты модулей находятся в папке `./tests/`
 
-В папке `tests` есть модули для тестирования всех функций находящихся в папке `utils`
+Для запуска тестов напшите в терминале
+`pytest`
+
+Тестами покрыто `100%` кода на текущий момент.
