@@ -62,6 +62,18 @@ new_list_dict = sort_by_date(list_dict)
 ```
 Отсортирует список по убыванию времени ключа 'date'
 
+3. Функция ```filter_by_currency(transactions, currency_code)```
+
+Генератор для поиска в списке по типу валютной операции
+
+4. Функция ``transaction_descriptions(transactions)``
+
+Генератор для получения из списка описания операции
+
+5. Функция ``card_number_generator(num_start, num_end)``
+
+Генератор номера карты в формате XXXX XXXX XXXX XXXX
+
 ## Тесты
 Все тесты модулей находятся в папке `./tests/`
 
