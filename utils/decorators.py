@@ -3,7 +3,11 @@ from typing import Any, Callable
 
 
 def log_decorator_args(filename: str | None = None) -> Callable:
-
+    """
+    Декоратор для логирования работы функции
+    :param filename: путь к файлу, если нужно записать в файл, а не в консоль
+    :return: декоратор
+    """
     def log_decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
