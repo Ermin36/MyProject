@@ -1,6 +1,6 @@
 import pytest
 
-from utils import get_date, mask_account_card
+from src import get_date, mask_account_card
 
 # functions
 

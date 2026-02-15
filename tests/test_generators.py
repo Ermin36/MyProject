@@ -1,9 +1,8 @@
-from pydoc import resolve
 from typing import Any
 
 import pytest
 
-from utils import card_number_generator, filter_by_currency, transaction_descriptions
+from src import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 @pytest.fixture

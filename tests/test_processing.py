@@ -1,6 +1,6 @@
 import pytest
 
-from utils import filter_by_state, sort_by_date
+from src import filter_by_state, sort_by_date
 
 
 # functions

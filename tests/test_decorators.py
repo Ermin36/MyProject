@@ -1,6 +1,6 @@
 import pytest
 
-from utils import log_decorator_args
+from src import log_decorator_args
 
 
 @log_decorator_args()
