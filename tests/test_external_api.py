@@ -9,7 +9,7 @@ from typing import Any
 class TestGetTransactionAmount:
 
     def test_get_valid_transaction_amount_rub(self) -> None:
-        """"""
+        """Проверка функции на рублях"""
         transactions = read_json("./data/operations.json")
         transaction_test = transactions[0]
         result = get_transaction_amount(transaction_test)
@@ -18,7 +18,7 @@ class TestGetTransactionAmount:
 
     @patch("src.external_api.requests.get")
     def test_get_valid_transaction_amount_usd(self, mock_get: Mock) -> None:
-        """"""
+        """Проверка функции на USD"""
         transactions = read_json("./data/operations.json")
         transaction_test = transactions[1]
 
@@ -45,7 +45,7 @@ class TestGetTransactionAmount:
         ]
     )
     def test_get_invalid_transaction_amount_data(self, data: dict[str, Any], err_message: str) -> None:
-        """"""
+        """Проверка функции на правильности обработки ошибок"""
         with pytest.raises(ValueError) as err:
             get_transaction_amount(data)
 
@@ -53,7 +53,7 @@ class TestGetTransactionAmount:
 
     @patch("src.external_api.requests.get")
     def test_get_invalid_transaction_amount_code(self, mock_get: Mock) -> None:
-        """"""
+        """Проверка правильности данных при ошибке api"""
         transactions = read_json("./data/operations.json")
         transaction_test = transactions[1]
 

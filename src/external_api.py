@@ -6,7 +6,12 @@ from typing import Any
 
 
 def get_transaction_amount(transaction: dict[str, Any], date: str | None = None) -> float:
-    """"""
+    """
+    Функция возвращает сумму операции и конвертирует при сумме не в рублях
+    :param transaction: операция
+    :param date: не обязательная дата для курса
+    :return: сумма в рублях
+    """
 
     load_dotenv()
 
