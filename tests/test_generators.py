@@ -74,7 +74,7 @@ class TestFilterByCurrency:
         except StopIteration:
             assert True
 
-    def test_filter_by_currency_dst(self, transactions_list: list[dict[str,Any]]) -> None:
+    def test_filter_by_currency_dst(self, transactions_list: list[dict[str, Any]]) -> None:
         """Фильтрация списка без соответствующей валютной операции"""
         result = filter_by_currency(transactions_list, "DST")
 
@@ -123,10 +123,10 @@ class TestCardNumberGenerator:
         [
             (-4, 2, "Значение не может быть меньше нуля"),
             (7, 2, "Начальное число не может быть больше конечного"),
-            (5, 10**16, "Значение не должно превышать 9999 9999 9999 9999")
-        ]
+            (5, 10**16, "Значение не должно превышать 9999 9999 9999 9999"),
+        ],
     )
-    def test_invalid_card_number_generator(self, num_min: int, num_max: int, error_message:str) -> None:
+    def test_invalid_card_number_generator(self, num_min: int, num_max: int, error_message: str) -> None:
         """Тест на корректность обработки ошибок и их сообщений"""
         with pytest.raises(ValueError) as err:
             result = card_number_generator(num_min, num_max)

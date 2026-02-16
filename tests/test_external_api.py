@@ -1,9 +1,10 @@
+from typing import Any
+from unittest.mock import Mock, patch
+
 import pytest
 
-from src.external_api import get_transaction_amount
 from src import read_json
-from unittest.mock import patch, Mock
-from typing import Any
+from src.external_api import get_transaction_amount
 
 
 class TestGetTransactionAmount:
@@ -36,13 +37,16 @@ class TestGetTransactionAmount:
     @pytest.mark.parametrize(
         "data, err_message",
         [
-            ({"operationAmount": {"currency": {"name": "USD", "code": "USD"}}},
-             "Не найдены данные amount"),
-            ({"operationAmount": {"amount": "8221.37", "currency": {"code": "USD"}}},
-            "Не найдены данные currency.name"),
-            ({"operationAmount": {"amount": "8221.37", "currency": {"name": "USD"}}},
-             "Не найдены данные currency.code"),
-        ]
+            ({"operationAmount": {"currency": {"name": "USD", "code": "USD"}}}, "Не найдены данные amount"),
+            (
+                {"operationAmount": {"amount": "8221.37", "currency": {"code": "USD"}}},
+                "Не найдены данные currency.name",
+            ),
+            (
+                {"operationAmount": {"amount": "8221.37", "currency": {"name": "USD"}}},
+                "Не найдены данные currency.code",
+            ),
+        ],
     )
     def test_get_invalid_transaction_amount_data(self, data: dict[str, Any], err_message: str) -> None:
         """Проверка функции на правильности обработки ошибок"""
@@ -67,4 +71,3 @@ class TestGetTransactionAmount:
 
         assert result == 0.0
         mock_get.assert_called_once_with(api, headers=header)
-
