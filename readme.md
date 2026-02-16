@@ -29,7 +29,7 @@
 Пример:
 
 ```python
-from utils.processing import filter_by_state
+from src.processing import filter_by_state
 
 list_dict = [
     {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, 
@@ -49,7 +49,7 @@ new_list_dict = filter_by_state(list_dict)
 Пример:
 
 ```python
-from utils.processing import sort_by_date
+from src.processing import sort_by_date
 
 list_dict = [
     {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, 
