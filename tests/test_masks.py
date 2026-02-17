@@ -1,6 +1,6 @@
 import pytest
 
-from utils import get_mask_account, get_mask_card_number
+from src import get_mask_account, get_mask_card_number
 
 
 class TestMaskCardNumber:
