@@ -1,6 +1,6 @@
 from .logger import create_logger
 
-logger = create_logger(__name__, 'masks.log')
+logger = create_logger(__name__, "masks.log")
 
 
 def get_mask_card_number(card_number: int) -> str:

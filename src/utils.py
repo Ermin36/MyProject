@@ -1,8 +1,10 @@
 import json
 from typing import Any
+
 from .logger import create_logger
 
-logger = create_logger(__name__,"utils.log")
+logger = create_logger(__name__, "utils.log")
+
 
 def read_json(path: str) -> list[Any]:
     """
