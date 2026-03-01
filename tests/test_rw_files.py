@@ -1,18 +1,35 @@
-import unittest
 from unittest.mock import MagicMock, Mock, mock_open, patch
+from src.rw_files import IOFiles
+from typing import Any
 
+import unittest
 import numpy as np
 import pandas as pd
 import pytest
 
-from src.rw_files import IOFiles
 
 
-class TestReadCSVAndXLSX(unittest.TestCase):
+
+class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
 
     def setUp(self) -> None:
         """Создание класса для тестов"""
         self.io_files = IOFiles("./data/transactions.csv")
+
+    def test_valid_read_json(self) -> None:
+        """Тест функции на верных данных"""
+
+        self.io_files.set_path("./data/operations.json")
+        json_data = self.io_files._read_json()
+
+        assert isinstance(json_data, list)
+        assert isinstance(json_data[0], dict)
+
+    def test_invalid_read_json(self) -> None:
+        """Тест функции при пустом пути или не верных данных в файле"""
+        self.io_files.set_path("./data/test.json")
+        result = self.io_files._read_json()
+        assert result == []
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("csv.reader")

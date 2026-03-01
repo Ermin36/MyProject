@@ -1,17 +1,17 @@
 from typing import Any
 from unittest.mock import Mock, patch
+from src.external_api import get_transaction_amount
+from src import IOFiles
 
 import pytest
-
-from src import read_json
-from src.external_api import get_transaction_amount
 
 
 class TestGetTransactionAmount:
 
     def test_get_valid_transaction_amount_rub(self) -> None:
         """Проверка функции на рублях"""
-        transactions = read_json("./data/operations.json")
+        file = IOFiles("./data/operations.json")
+        transactions = file.read()
         transaction_test = transactions[0]
         result = get_transaction_amount(transaction_test)
 
@@ -20,7 +20,8 @@ class TestGetTransactionAmount:
     @patch("src.external_api.requests.get")
     def test_get_valid_transaction_amount_usd(self, mock_get: Mock) -> None:
         """Проверка функции на USD"""
-        transactions = read_json("./data/operations.json")
+        file = IOFiles("./data/operations.json")
+        transactions = file.read()
         transaction_test = transactions[1]
 
         mock_get.return_value.status_code = 200
@@ -58,7 +59,8 @@ class TestGetTransactionAmount:
     @patch("src.external_api.requests.get")
     def test_get_invalid_transaction_amount_code(self, mock_get: Mock) -> None:
         """Проверка правильности данных при ошибке api"""
-        transactions = read_json("./data/operations.json")
+        file = IOFiles("./data/operations.json")
+        transactions = file.read()
         transaction_test = transactions[1]
 
         mock_get.return_value.status_code = 201
