@@ -11,7 +11,7 @@ def func_division(int1: int, int2: int) -> float:
 class TestLogDecorators:
 
     def test_valid_log_decorator(self, capsys: pytest.CaptureFixture) -> None:
-        """Тестирование на логирование правлиьно отработанной функции"""
+        """Тестирование на логирование правильно отработанной функции"""
         func_division(5, 2)
         result = capsys.readouterr()
 

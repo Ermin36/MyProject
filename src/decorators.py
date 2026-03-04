@@ -31,3 +31,38 @@ def log_decorator_args(filename: str | None = None) -> Callable:
         return wrapper
 
     return log_decorator
+
+
+def json_decorator_from_operations(func: Callable) -> Callable:
+    """
+    Декоратор для преображения операций в csv и xlsx файлов в тип json
+    :param func: функция для декорирования
+    :return: декоратор
+    """
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        operations: list[dict] = func(*args, **kwargs)
+        new_list: list[dict] = []
+        inf = lambda item, data: str(item.get(data, "")) if str(item.get(data, "")) != "" and str(item.get(data, "")) != "nan" else 'NONE'
+        for operation in operations:
+            new_dict = {
+                "id": operation.get("id", 0),
+                "state": inf(operation, "state"),
+                "date": inf(operation, "date"),
+                "operationAmount":{
+                    "amount": operation.get("amount", 0),
+                    "currency":{
+                        "name": inf(operation, "currency_name"),
+                        "code": inf(operation, "currency_code")
+                    }
+                },
+                "description": inf(operation, "description"),
+                "from": inf(operation, "from"),
+                "to": inf(operation, "to")
+            }
+
+            new_list.append(new_dict)
+
+        return new_list
+
+    return wrapper

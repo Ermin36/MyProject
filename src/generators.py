@@ -10,7 +10,7 @@ def filter_by_currency(
     Фильтрация операций по типу валюты
     :param transactions: список
     :param currency_code: тип операции
-    :return: операции
+    :return: отсортированные операции
     """
     for operation in transactions:
         currency = operation.get("operationAmount", {}).get("currency", {})
@@ -33,7 +33,7 @@ def transaction_descriptions(transactions: list[dict[str, Any]]) -> Generator[st
 
 def card_number_generator(num_start: int, num_end: int) -> Generator[str, None, None]:
     """
-    Генереация номера карты
+    Генерация номера карты
     :param num_start: начальное число
     :param num_end: конечное число
     :return: номер карты в формате XXXX XXXX XXXX XXXX

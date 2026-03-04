@@ -1,6 +1,7 @@
 import csv
 from typing import Any, Dict, List
 from .logger import create_logger
+from .decorators import json_decorator_from_operations
 
 import numpy as np
 import pandas as pd
@@ -63,6 +64,7 @@ class IOFiles:
             logger.error("Файл не найден")
             return []
 
+    @json_decorator_from_operations
     def _read_csv(self) -> list[dict[str, Any]]:
         """
         Внутренняя функция чтения csv файлов
@@ -86,6 +88,7 @@ class IOFiles:
 
         return data_list
 
+    @json_decorator_from_operations
     def _read_xlsx(self) -> list[dict[str, Any]]:
         """
         Внутренняя функция чтения Excel файлов
