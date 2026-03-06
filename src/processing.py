@@ -8,7 +8,12 @@ def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict
     :param state: данные фильтрации
     :return: фильтрованный список
     """
-    result = [item for item in list_dict if item.get("state", "").lower() == state.lower()]
+    result: list[dict] = []
+    for operation in list_dict:
+        operation_state = operation.get("state", "")
+        if operation_state.lower() == state.lower():
+            result.append(operation)
+
     return result
 
 
@@ -34,7 +39,7 @@ def process_bank_search(operations: list[dict], search: str) -> list[dict]:
     pattern = re.compile(search)
 
     for operation in operations:
-        description = operation.get("description", "").lower()
+        description = operation.get("description", "")
 
         data = pattern.search(description)
         if data is not None:
@@ -43,12 +48,12 @@ def process_bank_search(operations: list[dict], search: str) -> list[dict]:
     return ret_list
 
 
-def process_bank_operations(operations: list[dict], categories: list) -> dict:
+def process_bank_operations(operations: list[dict], categories: list[str]) -> dict:
     """
-    Функция сбора количества операций по категории
+    Функция сбора количества операций по категориям
     :param operations: список операций
     :param categories: список категорий
-    :return: словарь категорий типа dict[Any, int]
+    :return: словарь категорий типа dict[any, int]
     """
     ret_dict = {}
     for category in categories:
@@ -57,7 +62,7 @@ def process_bank_operations(operations: list[dict], categories: list) -> dict:
     for data in operations:
         description = data.get("description", "")
         for category in categories:
-            if re.search(category,description) is not None:
+            if re.search(category, description) is not None:
                 ret_dict[category] += 1
                 continue
 

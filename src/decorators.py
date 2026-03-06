@@ -39,26 +39,31 @@ def json_decorator_from_operations(func: Callable) -> Callable:
     :param func: функция для декорирования
     :return: декоратор
     """
+
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         operations: list[dict] = func(*args, **kwargs)
         new_list: list[dict] = []
-        inf = lambda item, data: str(item.get(data, "")) if str(item.get(data, "")) != "" and str(item.get(data, "")) != "nan" else 'NONE'
+
+        def inf(item: dict, data: str) -> str:
+            inf_data = str(item.get(data, "NONE"))
+            if inf_data != "" and inf_data != "NONE" and inf_data != "nan":
+                return inf_data
+            else:
+                return "NONE"
+
         for operation in operations:
             new_dict = {
                 "id": operation.get("id", 0),
                 "state": inf(operation, "state"),
                 "date": inf(operation, "date"),
-                "operationAmount":{
+                "operationAmount": {
                     "amount": operation.get("amount", 0),
-                    "currency":{
-                        "name": inf(operation, "currency_name"),
-                        "code": inf(operation, "currency_code")
-                    }
+                    "currency": {"name": inf(operation, "currency_name"), "code": inf(operation, "currency_code")},
                 },
                 "description": inf(operation, "description"),
                 "from": inf(operation, "from"),
-                "to": inf(operation, "to")
+                "to": inf(operation, "to"),
             }
 
             new_list.append(new_dict)

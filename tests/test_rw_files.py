@@ -1,6 +1,5 @@
 from unittest.mock import MagicMock, Mock, mock_open, patch
 from src.rw_files import IOFiles
-from typing import Any
 
 import unittest
 import numpy as np
@@ -16,14 +15,18 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
         """Создание класса для тестов"""
         self.io_files = IOFiles("./data/transactions.csv")
 
-    def test_valid_read_json(self) -> None:
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    def test_valid_read_json(self, mock: Mock, mock_files: MagicMock) -> None:
         """Тест функции на верных данных"""
 
         self.io_files.set_path("./data/operations.json")
+        mock.return_value = [{"id":1}]
         json_data = self.io_files._read_json()
 
         assert isinstance(json_data, list)
         assert isinstance(json_data[0], dict)
+        assert json_data[0]["id"] == 1
 
     def test_invalid_read_json(self) -> None:
         """Тест функции при пустом пути или не верных данных в файле"""
@@ -35,11 +38,19 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
     @patch("csv.reader")
     def test_read_valid_csv(self, mock: Mock, mock_file: MagicMock) -> None:
         """Тест функции чтения данных из csv файла"""
-        mock.return_value = iter([["id", "name", "age"], ["1", "Иван", "25"], ["2", "Петр", "30"]])  # заголовки
+        mock.return_value = iter([
+            ["id", "state", "date", "amount", "currency_name", "currency_code", "description", "from", "to"],
+            [1, "EXPECTED", "0:1", 15, "rub", "RUB", "test", "1", "2"],
+            [7, "CANCELED", "7:2", 4, "USD", "USD", "set", "5", "1"]])  # заголовки
+
         result = self.io_files._read_csv()
         expected = [
-            {"id": "1", "name": "Иван", "age": "25"},
-            {"id": "2", "name": "Петр", "age": "30"},
+            {"id": 1, "state": "EXPECTED", "date": "0:1", "operationAmount":
+                {"amount": 15, "currency": {"name": "rub", "code": "RUB"}},
+                "description": "test", "from": "1", "to": "2"},
+            {"id": 7, "state": "CANCELED", "date": "7:2", "operationAmount":
+                {"amount": 4, "currency": {"name": "USD", "code": "USD"}},
+                "description": "set", "from": "5", "to": "1"}
         ]
         assert result == expected
         mock.assert_called_once_with(mock_file(), delimiter=";")
@@ -49,16 +60,30 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
         """Тест функции чтения данных из excel файла"""
         mock_df = pd.DataFrame(
             {
-                "id": [1.0, 2.0, np.nan],
-                "name": ["Nikita", "Ivan", "Dima"],
+                "id": [1.0, np.nan],
+                "state": ["EXPECTED", "CANCELED"],
+                "date": ["0:1", "7:2"],
+                "amount": [15.0, 4.0],
+                "currency_name": ["rub", "USD"],
+                "currency_code": ["RUB", "USD"],
+                "description": ["test", "set"],
+                "from": ["1", "5"],
+                "to": ["2", "1"]
             }
         )
         mock.return_value = mock_df
 
         io_file = IOFiles("./data/test.xlsx")
         result = io_file._read_xlsx()
-
-        assert result == [{"id": 1, "name": "Nikita"}, {"id": 2, "name": "Ivan"}, {"id": None, "name": "Dima"}]
+        expected = [
+            {"id": 1, "state": "EXPECTED", "date": "0:1", "operationAmount":
+                {"amount": 15, "currency": {"name": "rub", "code": "RUB"}},
+                "description": "test", "from": "1", "to": "2"},
+            {"id": None, "state": "CANCELED", "date": "7:2", "operationAmount":
+                {"amount": 4, "currency": {"name": "USD", "code": "USD"}},
+                "description": "set", "from": "5", "to": "1"}
+        ]
+        assert result == expected
         mock.assert_called_once_with("./data/test.xlsx")
 
     def test_read_invalid_csv(self) -> None:

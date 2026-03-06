@@ -40,7 +40,7 @@ class TestFilterByState:
 class TestSortByDate:
 
     def test_sort_by_date_desc(self, list_for_test: list[dict[str, str]]) -> None:
-        """Сортировка по возростанию"""
+        """Сортировка по возрастанию"""
         result = sort_by_date(list_for_test)
         dates = [item.get("date", "0") for item in result]
 
