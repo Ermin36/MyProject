@@ -1,7 +1,7 @@
 import logging
 from logging import Logger
 
-LOGS_DIR = "../logs/"
+LOGS_DIR = "./logs/"
 
 
 def create_logger(name: str | None = None, file: str | None = None) -> Logger:

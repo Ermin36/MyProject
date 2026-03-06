@@ -1,6 +1,7 @@
 import pytest
 
-from src import filter_by_state, sort_by_date
+from src import filter_by_state, sort_by_date, process_bank_search, process_bank_operations
+from pytest_mock import MockerFixture
 
 
 # functions
@@ -52,3 +53,58 @@ class TestSortByDate:
         dates = [item.get("date", "0") for item in result]
 
         assert dates == ["16.03.24", "15.03.24", "14.03.24", "11.03.24", "05.03.24", "0"][::-1]
+
+
+class TestProcessBankSearch:
+
+    def test_process_bank_search_correct(self) -> None:
+        """Проверка поиска на верных данных"""
+        test_list: list[dict] = [
+            {"id": 1, 'description': "Hello"},
+            {"id": 2, 'description': "Hello"},
+            {"id": 3, 'description': "HI"}
+        ]
+        result = process_bank_search(test_list, "Hello")
+
+        assert len(result) == 2
+        assert result[0]['id'] == 1
+
+    def test_process_bank_search_null(self) -> None:
+        """Проверка поиска по не существующей записи или пустого списка"""
+        test_list: list[dict] = [
+            {"id": 1, 'description': "Hello"},
+            {"id": 2, 'description': "Hello"},
+            {"id": 3, 'description': "HI"}
+        ]
+        null_list = []
+
+        result = process_bank_search(test_list, "test")
+        assert len(result) == 0
+
+        result = process_bank_search(null_list, "Hello")
+        assert len(result) == 0
+
+
+class TestProcessBankOperations:
+
+    def test_process_bank_operations_correct(self) -> None:
+        test_list: list[dict] = [
+            {"id": 1, 'description': "Hello"},
+            {"id": 2, 'description': "Hello"},
+            {"id": 3, 'description': "HI"}
+        ]
+
+        result = process_bank_operations(test_list, ['Hello'])
+
+        assert result.get('Hello', False) == 2
+
+    def test_process_bank_operations_null(self) -> None:
+        test_list: list[dict] = [
+            {"id": 1, 'description': "Hello"},
+            {"id": 2, 'description': "Hello"},
+            {"id": 3, 'description': "HI"}
+        ]
+
+        result = process_bank_operations(test_list, ['test'])
+
+        assert result.get("test", False) == 0

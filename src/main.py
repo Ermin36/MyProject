@@ -33,9 +33,8 @@ def get_user_input() -> dict[str, list]:
             for out_id, user_data in enumerate(user_out):
                 if user_input.lower() == user_data.lower():
                     out["out"].append(ids[out_id])
-
                     if out_data != "":
-                        print(f"\nПрограмма: {out_data[out_id]}\n")
+                        print(f"Программа: {out_data[out_id]}")
 
                     if goto != 0 and ids[out_id] == 0:
                         out["out"].extend([0] * goto)
@@ -45,7 +44,7 @@ def get_user_input() -> dict[str, list]:
                         out["user_input"][n] = []
                         list_data: list[str] = out["user_input"][n]
                         while input_count > 0:
-                            print(inp_data)
+                            print(f"Программа: {inp_data}")
                             input_user: str = input("Пользователь: ")
 
                             if input_user != "":
@@ -114,8 +113,8 @@ def quest_5(id_quest: int, user_data: int, out: list, user_input: dict) -> list[
     """Функция обработки пятого вопроса"""
     match user_data:
         case 1:
-            out_list = []
             gen_currency = filter_by_currency(out, "RUB")
+            out_list = []
             for operation in gen_currency:
                 out_list.append(operation)
             out[:] = out_list
@@ -129,11 +128,17 @@ def quest_6(id_quest: int, user_data: int, out: list, user_input: dict) -> list[
     """Функция обработки шестого вопроса"""
     match user_data:
         case 1:
-            user_data_inp: list = user_input[id_quest] or []
-            if user_data_inp[0] is not None:
-                out[:] = process_bank_search(out, user_data_inp[0])
+            user_data_inp: list[str] = user_input.get(id_quest,[])
+            count: int = len(user_data_inp)
+            if count != 0:
+                text = user_data_inp.pop()
+                out_list = process_bank_search(out, text)
+
+                return out_list
+            else:
+                return out
         case 2:
-            return out
+            out = out
 
     return out
 
@@ -160,7 +165,8 @@ def main() -> None:
     operations: list[dict] = processing_user_data(data)
 
     count = len(operations)
-    print(f"Программа:\nВсего банковских операций в выборке: {count}\n")
+    if count > 0:
+        print(f"Программа:\nВсего банковских операций в выборке: {count}\n")
 
     for operation in operations:
         date = ""
@@ -171,7 +177,7 @@ def main() -> None:
         data_from = operation.get("from", "NONE")
         card_from = ""
         if data_from != "NONE":
-            card_from = mask_account_card(data_from) if data_from != "NONE" else "null"
+            card_from = mask_account_card(data_from)
 
         data_to = operation.get("to", "NONE")
         card_to = mask_account_card(data_to) if data_to != "NONE" else "null"

@@ -62,10 +62,10 @@
         <p class="text">
             <a id="prevFileLink" class="nav" href="z_145eef247bfb46b6_external_api_py.html">&#xab; prev</a> &nbsp; &nbsp;
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
-            <a id="nextFileLink" class="nav" href="z_145eef247bfb46b6_masks_py.html">&#xbb; next</a>
+            <a id="nextFileLink" class="nav" href="z_145eef247bfb46b6_logger_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.4">coverage.py v7.13.4</a>,
-            created at 2026-02-16 16:47 +0300
+            created at 2026-03-06 15:51 +0300
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -92,7 +92,7 @@
     <p class="pln"><span class="n"><a id="t10" href="#t10">10</a></span><span class="t"><span class="str">    &#1060;&#1080;&#1083;&#1100;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1081; &#1087;&#1086; &#1090;&#1080;&#1087;&#1091; &#1074;&#1072;&#1083;&#1102;&#1090;&#1099;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t11" href="#t11">11</a></span><span class="t"><span class="str">    :param transactions: &#1089;&#1087;&#1080;&#1089;&#1086;&#1082;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t"><span class="str">    :param currency_code: &#1090;&#1080;&#1087; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t"><span class="str">    :return: &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t"><span class="str">    :return: &#1086;&#1090;&#1089;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t">    <span class="key">for</span> <span class="nam">operation</span> <span class="key">in</span> <span class="nam">transactions</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t">        <span class="nam">currency</span> <span class="op">=</span> <span class="nam">operation</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">"operationAmount"</span><span class="op">,</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">"currency"</span><span class="op">,</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -115,7 +115,7 @@
     <p class="pln"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t"><span class="key">def</span> <span class="nam">card_number_generator</span><span class="op">(</span><span class="nam">num_start</span><span class="op">:</span> <span class="nam">int</span><span class="op">,</span> <span class="nam">num_end</span><span class="op">:</span> <span class="nam">int</span><span class="op">)</span> <span class="op">-></span> <span class="nam">Generator</span><span class="op">[</span><span class="nam">str</span><span class="op">,</span> <span class="key">None</span><span class="op">,</span> <span class="key">None</span><span class="op">]</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">    <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t"><span class="str">    &#1043;&#1077;&#1085;&#1077;&#1088;&#1077;&#1072;&#1094;&#1080;&#1103; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072; &#1082;&#1072;&#1088;&#1090;&#1099;</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t"><span class="str">    &#1043;&#1077;&#1085;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1085;&#1086;&#1084;&#1077;&#1088;&#1072; &#1082;&#1072;&#1088;&#1090;&#1099;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t"><span class="str">    :param num_start: &#1085;&#1072;&#1095;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1095;&#1080;&#1089;&#1083;&#1086;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t"><span class="str">    :param num_end: &#1082;&#1086;&#1085;&#1077;&#1095;&#1085;&#1086;&#1077; &#1095;&#1080;&#1089;&#1083;&#1086;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t"><span class="str">    :return: &#1085;&#1086;&#1084;&#1077;&#1088; &#1082;&#1072;&#1088;&#1090;&#1099; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; XXXX XXXX XXXX XXXX</span>&nbsp;</span><span class="r"></span></p>
@@ -143,10 +143,10 @@
         <p>
             <a class="nav" href="z_145eef247bfb46b6_external_api_py.html">&#xab; prev</a> &nbsp; &nbsp;
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
-            <a class="nav" href="z_145eef247bfb46b6_masks_py.html">&#xbb; next</a>
+            <a class="nav" href="z_145eef247bfb46b6_logger_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.4">coverage.py v7.13.4</a>,
-            created at 2026-02-16 16:47 +0300
+            created at 2026-03-06 15:51 +0300
         </p>
     </div>
 </footer>
