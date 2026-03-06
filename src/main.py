@@ -90,7 +90,7 @@ def quest_2(id_quest: int, user_data: int, out: list, user_input: dict) -> list[
     """Функция обработки второго вопроса"""
     match user_data:
         case 1:
-            out[:] = filter_by_state(out)
+            out[:] = filter_by_state(out, "EXECUTED")
         case 2:
             out[:] = filter_by_state(out, "CANCELED")
         case 3:
@@ -105,7 +105,7 @@ def quest_4(id_quest: int, user_data: int, out: list, user_input: dict) -> list[
         case 1:
             out[:] = sort_by_date(out, False)
         case 2:
-            out[:] = sort_by_date(out)
+            out[:] = sort_by_date(out, True)
 
     return out
 
@@ -129,7 +129,7 @@ def quest_6(id_quest: int, user_data: int, out: list, user_input: dict) -> list[
     """Функция обработки шестого вопроса"""
     match user_data:
         case 1:
-            user_data_inp: list = user_input[id_quest]
+            user_data_inp: list = user_input[id_quest] or []
             if user_data_inp[0] is not None:
                 out[:] = process_bank_search(out, user_data_inp[0])
         case 2:
