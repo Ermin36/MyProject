@@ -1,8 +1,14 @@
 import csv
-from typing import Any, Dict, List
+import json
+from typing import Any
 
 import numpy as np
 import pandas as pd
+
+from .decorators import json_decorator_from_operations
+from .logger import create_logger
+
+logger = create_logger(__name__, "rw_files.log")
 
 
 class IOFiles:
@@ -17,11 +23,13 @@ class IOFiles:
         self._path_file = file_path
         self._type = file_path.split(".")[-1]
 
-    def read(self) -> List[Dict[str, Any]]:
+    def read(self) -> Any:
         """
         Чтения файла
         :return: список данных
         """
+        if self._type == "json":
+            return self._read_json()
         if self._type == "csv":
             return self._read_csv()
         elif self._type == "xlsx":
@@ -37,12 +45,33 @@ class IOFiles:
         self._path_file = new_path
         self._type = new_path.split(".")[-1]
 
-    def _read_csv(self) -> list[dict[str, Any]]:
+    def _read_json(self) -> list[dict]:
+        """
+        Функция чтения JSON файла
+        :return: список операций
+        """
+        logger.info("Старт функции read_json")
+        try:
+            with open(self._path_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+                if not isinstance(data, list):
+                    logger.error("Данные файла не являются списком")
+                    return []
+
+                logger.info("Завершение функции")
+                return data
+        except FileNotFoundError:
+            logger.error("Файл не найден")
+            return []
+
+    @json_decorator_from_operations
+    def _read_csv(self) -> list[dict]:
         """
         Внутренняя функция чтения csv файлов
         :return: список данных
         """
-        data_list: list[dict[str, Any]] = []
+        data_list: list[dict] = []
         try:
             with open(self._path_file, "r", encoding="utf-8") as f:
                 reader = csv.reader(f, delimiter=";")
@@ -52,7 +81,7 @@ class IOFiles:
 
                 for row in reader:
                     # Создаем новый словарь для каждой строки
-                    item: dict[str, Any] = {headers[i]: row[i] for i in range(len(row))}
+                    item: dict = {headers[i]: row[i] for i in range(len(row))}
                     data_list.append(item)
 
         except FileNotFoundError:
@@ -60,17 +89,18 @@ class IOFiles:
 
         return data_list
 
-    def _read_xlsx(self) -> list[dict[str, Any]]:
+    @json_decorator_from_operations
+    def _read_xlsx(self) -> list[dict]:
         """
         Внутренняя функция чтения Excel файлов
         :return: список данных
         """
         df = pd.read_excel(self._path_file)
         columns = df.columns
-        data_list: list[dict[str, Any]] = []
+        data_list: list[dict] = []
 
         for index in range(len(df)):
-            item: dict[str, Any] = {}
+            item: dict = {}
 
             for column in columns:
                 value = df[column][index]

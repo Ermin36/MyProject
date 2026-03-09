@@ -6,7 +6,7 @@ from src import get_mask_account, get_mask_card_number
 def mask_account_card(account_data: str) -> str:
     """
     Функция скрывает информацию об счёте или карте
-    :param account_data: данные аккаута
+    :param account_data: данные аккаунта
     :return: маска данных
     """
     data = account_data.split(" ")
@@ -20,9 +20,9 @@ def mask_account_card(account_data: str) -> str:
         raise ValueError("Номер не найден")
 
     if word_list[0] == "Счет":
-        mask_account = get_mask_account(int(number_list[0]))
+        mask_account = get_mask_account(number_list[0])
     else:
-        mask_account = get_mask_card_number(int(number_list[0]))
+        mask_account = get_mask_card_number(number_list[0])
 
     result = f"{word} {mask_account}"
     return result
@@ -30,7 +30,7 @@ def mask_account_card(account_data: str) -> str:
 
 def get_date(date: str) -> str:
     """
-    Функция возращает дату в фомате 'ДД.ММ.ГГГГ'
+    Функция возвращает дату в формате 'ДД.ММ.ГГГГ'
     :param date данные даты
     :return: возвращает дату
     """
