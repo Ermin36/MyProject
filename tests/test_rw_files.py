@@ -1,12 +1,11 @@
-from unittest.mock import MagicMock, Mock, mock_open, patch
-from src.rw_files import IOFiles
-
 import unittest
+from unittest.mock import MagicMock, Mock, mock_open, patch
+
 import numpy as np
 import pandas as pd
 import pytest
 
-
+from src.rw_files import IOFiles
 
 
 class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
@@ -21,7 +20,7 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
         """Тест функции на верных данных"""
 
         self.io_files.set_path("./data/operations.json")
-        mock.return_value = [{"id":1}]
+        mock.return_value = [{"id": 1}]
         json_data = self.io_files._read_json()
 
         assert isinstance(json_data, list)
@@ -38,19 +37,34 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
     @patch("csv.reader")
     def test_read_valid_csv(self, mock: Mock, mock_file: MagicMock) -> None:
         """Тест функции чтения данных из csv файла"""
-        mock.return_value = iter([
-            ["id", "state", "date", "amount", "currency_name", "currency_code", "description", "from", "to"],
-            [1, "EXPECTED", "0:1", 15, "rub", "RUB", "test", "1", "2"],
-            [7, "CANCELED", "7:2", 4, "USD", "USD", "set", "5", "1"]])  # заголовки
+        mock.return_value = iter(
+            [
+                ["id", "state", "date", "amount", "currency_name", "currency_code", "description", "from", "to"],
+                [1, "EXPECTED", "0:1", 15, "rub", "RUB", "test", "1", "2"],
+                [7, "CANCELED", "7:2", 4, "USD", "USD", "set", "5", "1"],
+            ]
+        )  # заголовки
 
         result = self.io_files._read_csv()
         expected = [
-            {"id": 1, "state": "EXPECTED", "date": "0:1", "operationAmount":
-                {"amount": 15, "currency": {"name": "rub", "code": "RUB"}},
-                "description": "test", "from": "1", "to": "2"},
-            {"id": 7, "state": "CANCELED", "date": "7:2", "operationAmount":
-                {"amount": 4, "currency": {"name": "USD", "code": "USD"}},
-                "description": "set", "from": "5", "to": "1"}
+            {
+                "id": 1,
+                "state": "EXPECTED",
+                "date": "0:1",
+                "operationAmount": {"amount": 15, "currency": {"name": "rub", "code": "RUB"}},
+                "description": "test",
+                "from": "1",
+                "to": "2",
+            },
+            {
+                "id": 7,
+                "state": "CANCELED",
+                "date": "7:2",
+                "operationAmount": {"amount": 4, "currency": {"name": "USD", "code": "USD"}},
+                "description": "set",
+                "from": "5",
+                "to": "1",
+            },
         ]
         assert result == expected
         mock.assert_called_once_with(mock_file(), delimiter=";")
@@ -68,7 +82,7 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
                 "currency_code": ["RUB", "USD"],
                 "description": ["test", "set"],
                 "from": ["1", "5"],
-                "to": ["2", "1"]
+                "to": ["2", "1"],
             }
         )
         mock.return_value = mock_df
@@ -76,12 +90,24 @@ class TestReadJSONAndCSVAndXLSX(unittest.TestCase):
         io_file = IOFiles("./data/test.xlsx")
         result = io_file._read_xlsx()
         expected = [
-            {"id": 1, "state": "EXPECTED", "date": "0:1", "operationAmount":
-                {"amount": 15, "currency": {"name": "rub", "code": "RUB"}},
-                "description": "test", "from": "1", "to": "2"},
-            {"id": None, "state": "CANCELED", "date": "7:2", "operationAmount":
-                {"amount": 4, "currency": {"name": "USD", "code": "USD"}},
-                "description": "set", "from": "5", "to": "1"}
+            {
+                "id": 1,
+                "state": "EXPECTED",
+                "date": "0:1",
+                "operationAmount": {"amount": 15, "currency": {"name": "rub", "code": "RUB"}},
+                "description": "test",
+                "from": "1",
+                "to": "2",
+            },
+            {
+                "id": None,
+                "state": "CANCELED",
+                "date": "7:2",
+                "operationAmount": {"amount": 4, "currency": {"name": "USD", "code": "USD"}},
+                "description": "set",
+                "from": "5",
+                "to": "1",
+            },
         ]
         assert result == expected
         mock.assert_called_once_with("./data/test.xlsx")

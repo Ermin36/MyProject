@@ -128,7 +128,7 @@ def quest_6(id_quest: int, user_data: int, out: list, user_input: dict) -> list[
     """Функция обработки шестого вопроса"""
     match user_data:
         case 1:
-            user_data_inp: list[str] = user_input.get(id_quest,[])
+            user_data_inp: list[str] = user_input.get(id_quest, [])
             count: int = len(user_data_inp)
             if count != 0:
                 text = user_data_inp.pop()
@@ -195,6 +195,7 @@ def main() -> None:
 
     if len(operations) == 0:
         print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+
 
 if __name__ == "__main__":
     main()

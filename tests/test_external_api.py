@@ -1,9 +1,10 @@
 from typing import Any
 from unittest.mock import Mock, patch
-from src.external_api import get_transaction_amount
-from src import IOFiles
 
 import pytest
+
+from src import IOFiles
+from src.external_api import get_transaction_amount
 
 
 class TestGetTransactionAmount:
